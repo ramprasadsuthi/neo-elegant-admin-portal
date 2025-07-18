@@ -4,8 +4,24 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Download, Filter, BarChart3, Users, DollarSign, BookOpen } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const Reports = () => {
+  const monthlyRevenueData = [
+    { month: 'Jan', revenue: 85000 },
+    { month: 'Feb', revenue: 92000 },
+    { month: 'Mar', revenue: 78000 },
+    { month: 'Apr', revenue: 105000 },
+    { month: 'May', revenue: 118000 },
+    { month: 'Jun', revenue: 134000 },
+    { month: 'Jul', revenue: 142000 },
+    { month: 'Aug', revenue: 128000 },
+    { month: 'Sep', revenue: 156000 },
+    { month: 'Oct', revenue: 167000 },
+    { month: 'Nov', revenue: 184000 },
+    { month: 'Dec', revenue: 195000 }
+  ];
+
   const reportStats = [
     {
       title: "Total Revenue",
@@ -227,17 +243,56 @@ const Reports = () => {
         </TabsContent>
 
         <TabsContent value="revenue" className="space-y-6">
-          <Card className="shadow-soft">
-            <CardHeader>
-              <CardTitle className="text-text-primary">Revenue Analytics</CardTitle>
-              <CardDescription>Financial performance and trends</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="h-80 bg-gradient-to-t from-primary/5 to-transparent rounded-soft flex items-center justify-center">
-                <div className="text-text-secondary">Revenue analytics visualization</div>
-              </div>
-            </CardContent>
-          </Card>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <Card className="shadow-soft">
+              <CardHeader>
+                <CardTitle className="text-text-primary">Monthly Revenue Trend</CardTitle>
+                <CardDescription>Revenue growth over the past 12 months</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={monthlyRevenueData}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="month" />
+                      <YAxis />
+                      <Tooltip formatter={(value) => [`₹${value}`, 'Revenue']} />
+                      <Line 
+                        type="monotone" 
+                        dataKey="revenue" 
+                        stroke="hsl(var(--primary))" 
+                        strokeWidth={3}
+                        dot={{ fill: "hsl(var(--primary))", strokeWidth: 2 }}
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card className="shadow-soft">
+              <CardHeader>
+                <CardTitle className="text-text-primary">Revenue Analytics</CardTitle>
+                <CardDescription>Financial performance insights</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-text-secondary">Average Monthly Growth</span>
+                    <Badge className="bg-green-500">+12.3%</Badge>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-text-secondary">Best Performing Month</span>
+                    <span className="font-medium">December 2024</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-text-secondary">Total YTD Revenue</span>
+                    <span className="font-bold text-xl">₹22,15,000</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </TabsContent>
       </Tabs>
     </div>

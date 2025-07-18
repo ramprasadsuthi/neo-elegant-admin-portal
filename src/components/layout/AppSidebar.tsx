@@ -43,9 +43,10 @@ const systemItems = [
 ];
 
 export function AppSidebar() {
-  const { collapsed } = useSidebar();
+  const { state } = useSidebar();
   const location = useLocation();
   const currentPath = location.pathname;
+  const collapsed = state === "collapsed";
 
   const isActive = (path: string) => currentPath === path || currentPath.startsWith(path + '/');
   
@@ -58,7 +59,7 @@ export function AppSidebar() {
   return (
     <Sidebar
       className={`${collapsed ? "w-14" : "w-64"} transition-all duration-300 border-r bg-white shadow-soft`}
-      collapsible
+      collapsible="icon"
     >
       <SidebarContent className="p-4">
         {/* Brand */}
