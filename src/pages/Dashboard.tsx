@@ -4,6 +4,7 @@ import { Users, DollarSign, BookOpen, AlertCircle, TrendingUp, TrendingDown } fr
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useEffect, useState } from "react";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 
 const Dashboard = () => {
   const [counters, setCounters] = useState({
@@ -82,6 +83,15 @@ const Dashboard = () => {
     }
   ];
 
+  const revenueData = [
+    { month: 'Jan', revenue: 85000, expenses: 45000 },
+    { month: 'Feb', revenue: 92000, expenses: 48000 },
+    { month: 'Mar', revenue: 78000, expenses: 42000 },
+    { month: 'Apr', revenue: 105000, expenses: 55000 },
+    { month: 'May', revenue: 118000, expenses: 58000 },
+    { month: 'Jun', revenue: 134000, expenses: 62000 }
+  ];
+
   const recentTransactions = [
     { student: "Rahul Sharma", amount: "₹15,000", course: "Full Stack Development", date: "Today", status: "Paid" },
     { student: "Priya Patel", amount: "₹12,000", course: "Data Science", date: "Yesterday", status: "Paid" },
@@ -143,8 +153,18 @@ const Dashboard = () => {
             <CardDescription>Monthly revenue vs expenses</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="h-64 bg-gradient-to-t from-primary/5 to-transparent rounded-soft flex items-end justify-center">
-              <div className="text-text-secondary">Chart placeholder - Revenue visualization</div>
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={revenueData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="month" />
+                  <YAxis />
+                  <Tooltip formatter={(value, name) => [`₹${value.toLocaleString()}`, name === 'revenue' ? 'Revenue' : 'Expenses']} />
+                  <Legend />
+                  <Bar dataKey="revenue" fill="hsl(var(--primary))" name="Revenue" />
+                  <Bar dataKey="expenses" fill="hsl(var(--destructive))" name="Expenses" />
+                </BarChart>
+              </ResponsiveContainer>
             </div>
           </CardContent>
         </Card>
